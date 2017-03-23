@@ -3,6 +3,14 @@
 
 #include <iostream>
 
+#define COMPARE(_op_)                                \
+bool operator _op_ (const SmartPointer& o) const {   \
+    return mPointer _op_ o.mPointer;                 \
+}                                                    \
+bool operator _op_ (const T* o) const {              \
+    return mPointer _op_ o;                          \
+}                                                    \
+
 template <typename T>
 class SmartPointer {
 public:
@@ -28,6 +36,11 @@ public:
         mPointer = temp;
         return *this;
     };
+
+    T& operator* () const { return *mPointer; };
+    T* operator-> () const { return mPointer; };
+    COMPARE(==);
+    COMPARE(!=);
 private:
     T *mPointer;
 };
